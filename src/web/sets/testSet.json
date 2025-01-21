@@ -1,0 +1,7 @@
+[
+    {
+        "term" : "term",
+        "description" : "description",
+        "memLevel" : 1
+    }
+]
