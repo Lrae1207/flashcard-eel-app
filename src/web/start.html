@@ -1,11 +1,24 @@
 <!DOCTYPE html>
+<html>
 <head>
     <title>Flashcards</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
     <h2>Home</h2>
-    <h3>Sets</h3>
-    <div id="set-section"></div>
+    <div id="set-section">
+        <label for="set">Set</label>
+        <input type="file" id="set-select" name="set" accept="text/json" required/>
+        <button onsubmit="loadSetPage()">Select set</button>
+    </div>
+    <div id="preview-section">
+        <t id="preview-text">preview</t>
+    </div>
+    <div id="error-section">
+        <t id="error-text">error</t>
+    </div>
+
     <script type="text/javascript" src="eel.js"></script>
     <script type="text/javascript" src="function.js"></script>
 </body>
+</html>
