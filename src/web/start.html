@@ -5,17 +5,24 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-    <h2>Home</h2>
+    <h1 class="text" id="title">Home</h1>
     <div id="set-section">
-        <label for="set">Set</label>
-        <input type="file" id="set-select" name="set" accept="text/json" required/>
-        <button onsubmit="loadSetPage()">Select set</button>
+        <u>
+            <label class="text" id="set-label" for="set">Upload set:</label>
+        </u>
+        <br><br>
+        <label for="set-select" class="text indented file-input-label">
+            <input class="text" type="file" id="set-select" name="set" accept="text/json" required>Select a valid JSON set</input>
+        </label>
+        <br><br>
+        <button class="text indented" id="load-set-button" onsubmit="loadSetPage()">Select this set</button>
     </div>
+    <br>
     <div id="preview-section">
-        <t id="preview-text">preview</t>
+        <t class="text" id="preview-text">preview</t>
     </div>
-    <div id="error-section">
-        <t id="error-text">error</t>
+    <div id="error-section" hidden>
+        <t id="error-text"></t>
     </div>
 
     <script type="text/javascript" src="eel.js"></script>

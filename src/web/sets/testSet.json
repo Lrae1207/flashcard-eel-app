@@ -3,5 +3,25 @@
         "term" : "term",
         "description" : "description",
         "memLevel" : 1
+    },
+    {
+        "term" : "1+1",
+        "description" : "2",
+        "memLevel" : 1
+    },
+    {
+        "term" : "2+2",
+        "description" : "4",
+        "memLevel" : 1
+    },
+    {
+        "term" : "4+4",
+        "description" : "8",
+        "memLevel" : 1
+    },
+    {
+        "term" : "6!",
+        "description" : "720",
+        "memLevel" : 1
     }
 ]
