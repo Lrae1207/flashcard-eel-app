@@ -9,6 +9,8 @@ var currentCardIndex = 0;
 var isShuffled = false;
 var isTermShownDefault = true;
 var isTermShown = true;
+var rightButtonActive = false;
+var leftButtonActive = false;
 
 // divs
 const divSetSelection = document.getElementById("set-section");
@@ -28,6 +30,8 @@ const navbar = document.getElementById("page-navbar-top");
 const header = document.getElementById("page-header");
 
 const fileInput = document.getElementById("set-select");
+const setNameDisplay = document.getElementById("set-name-display");
+const setEditButton = document.getElementById("set-edit");
 const previewText = document.getElementById("set-preview-text");
 
 const studyFlashcardCounter = document.getElementById("study-flashcard-counter");
@@ -49,15 +53,18 @@ function onFileChange() {
         validSet = false;
         return;
     }
-    var setName = fileList.name;
+    setName = fileList[0].name;
     var fileReader = new FileReader();
     fileReader.onload = function() {
         try {
             setData = JSON.parse(fileReader.result);
             setSize = setData.length;
             validSet = true;
+            setNameDisplay.innerText = setName;
+            setEditButton.hidden = false;
             displayPreview();
             clearError();
+            showFlashcard();
         } catch {
             clearPreview();
             displayError("file was improperly formatted/wasn't json file");
@@ -91,73 +98,44 @@ function clearPreview() {
     previewText.textContent = "";
 }
 
-// 0 = Sets
-// 1 = Study
-// 2 = About
-function switchSection(pageIndex) {
-    errorText.hidden = true;
-    errorText.innerText = "";
-    for (var i = 0; i < navbar.children.length; ++i) {
-        var child = navbar.children[i];
-        if (i == pageIndex) {
-            child.classList.add("active");
-            continue;
-        }
-        child.classList.remove("active");
-    }
-    loadPage(pageIndex);
-}
-
-function loadPage(pageIndex) {
-    if (pageIndex == 0) {
-        divSetPreview.hidden = false;
-        divSetSelection.hidden = false;
-        divStudyFlashcard.hidden = true;
-        divAbout.hidden = true;
-        header.innerText = "Sets";
-        title.innerText = "Flashcards - Browsing Sets";
-    }
-    if (pageIndex == 1) {
-        divSetPreview.hidden = true;
-        divSetSelection.hidden = true;
-        divStudyFlashcard.hidden = false;
-        divAbout.hidden = true;
-        title.innerText = "Flashcards - Studying " + (setName != null) ? setName : "a set";
-        loadSetPage(validSet);
-    }
-    if (pageIndex == 2) {
-        divSetPreview.hidden = true;
-        divSetSelection.hidden = true;
-        divStudyFlashcard.hidden = true;
-        divAbout.hidden = false;
-        header.innerText = "About";
-        title.innerText = "Flashcards - About ";
-    }
-}
-
-function loadSetPage(setIsValid) {
-    if (!setIsValid) {
-        header.innerText = "Please select a valid set";
-        return;
+function updateButtons () {
+    if (currentCardIndex == 0) {
+        leftButtonActive = false;
+        rightButtonActive = true;
+    } else if (currentCardIndex == setSize - 1) {
+        leftButtonActive = true;
+        rightButtonActive = false;
+    } else {
+        leftButtonActive = true;
+        rightButtonActive = true;
     }
 
-    showFlashcard();
+    studyButtonLeft.classList.remove("inactive-button");
+    if (!leftButtonActive) {
+        studyButtonLeft.classList.add("inactive-button");
+    }
+
+    studyButtonRight.classList.remove("inactive-button");
+    if (!rightButtonActive) {
+        studyButtonRight.classList.add("inactive-button");
+    }
+
+    studyButtonShuffle.classList.remove("inactive-button");
+    if (!validSet) {
+        studyButtonShuffle.classList.add("inactive-button");
+    }
+
+    studyButtonFlip.classList.remove("inactive-button");
+    if (!validSet) {
+        studyButtonFlip.classList.add("inactive-button");
+    }
 }
 
 function showFlashcard() {
     studyFlashcardCounter.innerText = "Flashcard #: " + setSize;
     studyIndexDisplay.innerText = (currentCardIndex + 1) + "/" + setSize;
 
-    if (currentCardIndex == 0) {
-        studyButtonLeft.hidden = true;
-        studyButtonRight.hidden = false;
-    } else if (currentCardIndex == setSize - 1) {
-        studyButtonLeft.hidden = false;
-        studyButtonRight.hidden = true;
-    } else {
-        studyButtonLeft.hidden = false;
-        studyButtonRight.hidden = false;
-    }
+    updateButtons();
 
     if (isTermShown) {
         studyFlashcard.innerText = setData[currentCardIndex]['term'];
@@ -169,6 +147,9 @@ function showFlashcard() {
 }
 
 function switchFlashcardLeft() {
+    if  (!validSet || !leftButtonActive) {
+        return;
+    }
     if (currentCardIndex <= 0) {
         currentCardIndex = 0;
         return;
@@ -179,6 +160,9 @@ function switchFlashcardLeft() {
 }
 
 function switchFlashcardRight() {
+    if  (!validSet || !rightButtonActive) {
+        return;
+    }
     if (currentCardIndex >= setSize - 1) {
         currentCardIndex = setSize - 1;
         return;
@@ -193,6 +177,9 @@ function shuffleCards() {
 }
 
 function flipCard() {
+    if  (!validSet) {
+        return;
+    }
     isTermShown = !isTermShown;
     showFlashcard();
 }
@@ -206,3 +193,7 @@ function displayError(message) {
     divError.hidden = false;
     errorText.innerText = "ERROR: " + message;
 }
+
+document.onload = function() {
+    
+};

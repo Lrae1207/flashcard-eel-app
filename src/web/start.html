@@ -1,62 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title id="page-title">Flashcards - Browsing Sets</title>
+    <title id="page-title">Flashcards - Studying</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
-    <div id="page-navbar-top">
-        <!--We are using buttons so we don't have to save JSON data to session storage-->
-        <button class="active" onclick="switchSection(0)">Sets</button>
-        <button class="" onclick="switchSection(1)">Study</button>
-        <button class="" onclick="switchSection(2)">About</button>
-    </div>
 </head>
 <body>
-    <h1 class="text" id="page-header">Sets</h1>
+    <h1 class="" id="page-header">Flashcards</h1>
 
     <!-- Set section -->
     <div id="set-section">
-        <u>
-            <label class="text" id="set-label" for="set">Upload set:</label>
-        </u>
+        <label class="study-button" id="set-label" for="set-select">Upload set:</label>
+        <input class="" type="file" id="set-select" accept="text/json"/>
+        <t id="set-name-display">None</t>
         <br><br>
-        <input class="text" type="file" id="set-select" name="set" accept="text/json" required>Select a valid JSON set</input>
-        <br><br>
-        <button class="text indented" id="load-set-button" onsubmit="switchSection(1)">Select this set</button>
+        <button class="study-button" id="set-edit" hidden>Edit</button>
     </div>
     <br>
     <div id="set-preview-section">
-        <t class="text" id="set-preview-text">preview</t>
+        <t class="" id="set-preview-text">preview</t>
     </div>
 
     <!-- Study section -->
-    <div id="study-flashcard-viewport" hidden>
+    <div id="study-flashcard-viewport" >
         <t id="study-flashcard-counter"></t>
-        <br>
         <t id="study-index-display"></t>
-        <br>
         <t id="study-term-display"></t>
         <div id="study-flashcard">
-            <t id="study-flashcard-display"></t>
+            <div>
+                <t id="study-flashcard-display"></t>
+            </div>
         </div>
-        <br>
         <div id="study-flashcard-buttons">
-            <button id="study-button-left" onclick="switchFlashcardLeft()">&#8592;</button>
-            <button id="study-button-right" onclick="switchFlashcardRight()">&#8594;</button>
-            <button id="study-button-shuffle">Shuffle</button>
-            <button id="study-button-flip" onclick="flipCard()">Flip</button>
+            <button class="study-button inactive-button" id="study-button-left" onclick="switchFlashcardLeft()">&#8592;</button>
+            <button class="study-button inactive-button" id="study-button-right" onclick="switchFlashcardRight()">&#8594;</button>
+            <button class="study-button inactive-button" id="study-button-shuffle">Shuffle</button>
+            <button class="study-button inactive-button" id="study-button-flip" onclick="flipCard()">Flip</button>
         </div>
     </div>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- About section -->
-    <div id="about-section" hidden>
-        <h3 id="created-by-lrae1207">Created by Lrae1207</h3>
-        <h3 id="contact-https-github-com-lrae1207-or-lraeprogramming-gmail-com-">Contact @ <a href="https://github.com/Lrae1207">https://github.com/Lrae1207</a> or <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#108;&#114;&#97;&#x65;&#112;&#114;&#x6f;&#x67;&#114;&#97;&#x6d;&#x6d;&#x69;&#x6e;&#x67;&#x40;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;">&#108;&#114;&#97;&#x65;&#112;&#114;&#x6f;&#x67;&#114;&#97;&#x6d;&#x6d;&#x69;&#x6e;&#x67;&#x40;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a></h3>
-        <p>A python eel app I designed because I&#39;m not buying quizlet premium. This is mostly meant for me to study without having to watch ads on quizlet.</p>
-        <h3 id="how-it-works">How it works</h3>
-        <p>This app uses a python script that launches a web app using python eel.</p>
-        <p>Special thanks to python-eel <a href="https://github.com/python-eel/Eel">https://github.com/python-eel/Eel</a></p>
+    <div id="about-section" >
+        <h3 class="" id="created-by-lrae1207">Created by Lrae1207</h3>
+        <h3 class="" id="contact-https-github-com-lrae1207-or-lraeprogramming-gmail-com-">Contact @ <a href="https://github.com/Lrae1207">https://github.com/Lrae1207</a> or <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#108;&#114;&#97;&#x65;&#112;&#114;&#x6f;&#x67;&#114;&#97;&#x6d;&#x6d;&#x69;&#x6e;&#x67;&#x40;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;">&#108;&#114;&#97;&#x65;&#112;&#114;&#x6f;&#x67;&#114;&#97;&#x6d;&#x6d;&#x69;&#x6e;&#x67;&#x40;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a></h3>
+        <p class="">A python eel app I designed because I&#39;m not buying quizlet premium. This is mostly meant for me to study without having to watch ads on quizlet.</p>
     </div>
-    <div id="error-section" hidden>
+    <div id="error-section" >
         <t id="error-text"></t>
     </div>
 
