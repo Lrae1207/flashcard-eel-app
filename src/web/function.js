@@ -3,6 +3,8 @@ var setName = null;
 var setData = null;
 var setSize = 0;
 var validSet = false;
+// each card should have term, memscore and description fields
+var cardList = [];
 
 // study section data
 var currentCardIndex = 0;
@@ -14,7 +16,10 @@ var leftButtonActive = false;
 
 // divs
 const divSetSelection = document.getElementById("set-section");
+const divEditSection = document.getElementById("edit-section");
 const divSetPreview = document.getElementById("set-preview-section");
+const divEditPairs = document.getElementById("edit-pairs");
+const divEditAdd = document.getElementById("edit-add");
 
 const divStudyFlashcard = document.getElementById("study-flashcard-viewport");
 const divStudyCardDisplay = document.getElementById("study-flashcard");
@@ -32,6 +37,9 @@ const header = document.getElementById("page-header");
 const fileInput = document.getElementById("set-select");
 const setNameDisplay = document.getElementById("set-name-display");
 const setEditButton = document.getElementById("set-edit");
+const setDownloadButton = document.getElementById("set-edit");
+const editCloseButton = document.getElementById("edit-close");
+const editAddButton = document.getElementById("edit-add-button");
 const previewText = document.getElementById("set-preview-text");
 
 const studyFlashcardCounter = document.getElementById("study-flashcard-counter");
@@ -62,6 +70,7 @@ function onFileChange() {
             validSet = true;
             setNameDisplay.innerText = setName;
             setEditButton.hidden = false;
+            parseSetData(setData);
             displayPreview();
             clearError();
             showFlashcard();
@@ -92,6 +101,107 @@ function displayPreview() {
     }
 
     previewText.textContent = previewStr;
+}
+
+function parseSetData(data) {
+    cardList = [];
+    for (var i = 0; i < data.length; ++i) {
+        var card = {term:data[i]['term'],description:data[i]['description'],memLevel:data[i]['memLevel']};
+        cardList.push(card);
+    }
+}
+
+var pair = 0;
+function openEditSet() {
+    pair = 0;
+    setEditButton.hidden = true;
+    divEditSection.hidden = false;
+    divEditPairs.replaceChildren();
+    for (var i = 0; i < setSize; ++i) {
+        var pairContainer = document.createElement("div");
+        pairContainer.id = "pair" + i;
+        
+        var term = document.createElement("input");
+        term.id = "term" + pair;
+        term.type = "text";
+        term.value = cardList[i].term;
+
+        var desc = document.createElement("input");
+        desc.id = "desc" + pair;
+        desc.type = "text";
+        desc.value = cardList[i].description;
+
+        var deleteButton = document.createElement("button");
+        deleteButton.innerText = "X";
+        deleteButton.setAttribute("onclick", "javascript: deletePair(" + pair + ");");
+
+        pairContainer.appendChild(term);
+        pairContainer.appendChild(desc);
+        pairContainer.appendChild(deleteButton);
+
+        divEditPairs.appendChild(pairContainer);
+        pair++;
+    }
+}
+
+function addPair() {
+    var pairContainer = document.createElement("div");
+    pairContainer.id = "pair" + pair;
+        
+    var term = document.createElement("input");
+    term.id = "term" + pair;
+    term.type = "text";
+    term.value = "term";
+
+    var desc = document.createElement("input");
+    desc.id = "desc" + pair;
+    desc.type = "text";
+    desc.value = "description";
+
+    var deleteButton = document.createElement("button");
+    deleteButton.innerText = "X";
+    deleteButton.setAttribute("onclick", "javascript: deletePair(" + pair + ");");
+
+    pairContainer.appendChild(term);
+    pairContainer.appendChild(desc);
+    pairContainer.appendChild(deleteButton);
+
+    divEditPairs.appendChild(pairContainer);
+    pair++;
+}
+
+function deletePair(pairIndex) {
+    console.log("pair" + pairIndex);
+    document.getElementById("pair" + pairIndex).remove();
+}
+
+function restoreEditSet() {
+    if (confirm("Restore un-edited set(delete all progress)?")) {
+        openEditSet();
+    }
+}
+
+function closeEditSet() {
+    if (confirm("Save this edited set?")) {
+        var oldSet = cardList;
+        cardList = [];
+
+        for (var i = 0; i < divEditPairs.children.length; ++i) { // todo: preserve memScore of unedited pairs
+            var pairDiv = divEditPairs.children[i];
+            var index = pairDiv.id.slice(-1); // last letter of div id
+            var term = document.getElementById('term' + index).value;
+            var desc = document.getElementById('desc' + index).value;
+            var newCard = {term:term,description:desc,memLevel:0};
+            cardList.push(newCard);
+        }
+
+        setSize = cardList.length;
+        displayPreview();
+        clearError();
+        showFlashcard();
+    }
+    setEditButton.hidden = false;
+    divEditSection.hidden = true;
 }
 
 function clearPreview() {
@@ -138,11 +248,11 @@ function showFlashcard() {
     updateButtons();
 
     if (isTermShown) {
-        studyFlashcard.innerText = setData[currentCardIndex]['term'];
+        studyFlashcard.innerText = cardList[currentCardIndex].term;
         studyTermDisplay.innerText = "Term:";
         return;
     }
-    studyFlashcard.innerText = setData[currentCardIndex]['description'];
+    studyFlashcard.innerText = cardList[currentCardIndex].description;
     studyTermDisplay.innerText = "Description:";
 }
 
@@ -173,7 +283,15 @@ function switchFlashcardRight() {
 }
 
 function shuffleCards() {
-
+    remainingCards = cardList;
+    cardList = [];
+    while (remainingCards.length > 0) {
+        var index = Math.floor(Math.random() * remainingCards.length);
+        var card = remainingCards[index];
+        cardList.push({description : card.description, term : card.term, memLeve : card.memLevel});
+        remainingCards.splice(index,1);
+    }
+    showFlashcard();
 }
 
 function flipCard() {
@@ -197,3 +315,5 @@ function displayError(message) {
 document.onload = function() {
     
 };
+
+// Eel stuff

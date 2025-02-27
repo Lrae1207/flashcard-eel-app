@@ -12,8 +12,16 @@
         <label class="study-button" id="set-label" for="set-select">Upload set:</label>
         <input class="" type="file" id="set-select" accept="text/json"/>
         <t id="set-name-display">None</t>
-        <br><br>
-        <button class="study-button" id="set-edit" hidden>Edit</button>
+        <button class="study-button" id="set-edit" onclick="openEditSet()" hidden>Edit</button>
+    </div>
+    <br>
+    <div id="edit-section" hidden>
+        <button class="study-button" id="edit-restore" onclick="restoreEditSet()">Restore</button>
+        <button class="study-button" id="edit-close" onclick="closeEditSet()">Close</button>
+        <div id="edit-pairs"></div>
+        <div id="edit-add">
+            <button class="study-button" id="edit-add-button" onclick="addPair()">+</button>
+        </div>
     </div>
     <br>
     <div id="set-preview-section">
@@ -33,7 +41,7 @@
         <div id="study-flashcard-buttons">
             <button class="study-button inactive-button" id="study-button-left" onclick="switchFlashcardLeft()">&#8592;</button>
             <button class="study-button inactive-button" id="study-button-right" onclick="switchFlashcardRight()">&#8594;</button>
-            <button class="study-button inactive-button" id="study-button-shuffle">Shuffle</button>
+            <button class="study-button inactive-button" id="study-button-shuffle" onclick="shuffleCards()">Shuffle</button>
             <button class="study-button inactive-button" id="study-button-flip" onclick="flipCard()">Flip</button>
         </div>
     </div>
