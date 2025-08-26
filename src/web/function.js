@@ -37,7 +37,9 @@ const header = document.getElementById("page-header");
 const fileInput = document.getElementById("set-select");
 const setNameDisplay = document.getElementById("set-name-display");
 const setEditButton = document.getElementById("set-edit");
+const setSaveButton = document.getElementById("set-save");
 const setDownloadButton = document.getElementById("set-edit");
+const editNameInput = document.getElementById("edit-name");
 const editCloseButton = document.getElementById("edit-close");
 const editAddButton = document.getElementById("edit-add-button");
 const previewText = document.getElementById("set-preview-text");
@@ -120,6 +122,8 @@ function openEditSet() {
     for (var i = 0; i < setSize; ++i) {
         var pairContainer = document.createElement("div");
         pairContainer.id = "pair" + i;
+
+        editNameInput.value = setName;
         
         var term = document.createElement("input");
         term.id = "term" + pair;
@@ -148,7 +152,7 @@ function addPair() {
     var pairContainer = document.createElement("div");
     pairContainer.id = "pair" + pair;
         
-    var term = document.createElement("input");
+    var term = document("input");
     term.id = "term" + pair;
     term.type = "text";
     term.value = "term";
@@ -181,8 +185,20 @@ function restoreEditSet() {
     }
 }
 
+function saveSet() {
+    if (confirm("Save current set as a new set?")) {
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cardList));
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", setName);
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    }
+}
+
 function closeEditSet() {
-    if (confirm("Save this edited set?")) {
+    if (confirm("Save all current changes to current set?")) {
         var oldSet = cardList;
         cardList = [];
 
@@ -196,12 +212,13 @@ function closeEditSet() {
         }
 
         setSize = cardList.length;
+        setName = editNameInput.value;
         displayPreview();
         clearError();
         showFlashcard();
+        setEditButton.hidden = false;
+        divEditSection.hidden = true;
     }
-    setEditButton.hidden = false;
-    divEditSection.hidden = true;
 }
 
 function clearPreview() {
@@ -313,7 +330,7 @@ function displayError(message) {
 }
 
 document.onload = function() {
-    
+
 };
 
 // Eel stuff
