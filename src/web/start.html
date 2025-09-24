@@ -13,13 +13,14 @@
         <input class="" type="file" id="set-select" accept="text/json"/>
         <t id="set-name-display">None</t>
         <button class="study-button" id="set-edit" onclick="openEditSet()" hidden>Edit</button>
-        <button class="study-button" id="set-save" onclick="saveSet()">Save as new</button>
+        <button class="study-button" id="set-save" onclick="saveAndWriteSet()">Save</button>
+        <button class="study-button" id="set-save-new" onclick="saveNewSet()">Save as new</button>
     </div>
     <br>
     <div id="edit-section" hidden>
         <button class="study-button" id="edit-restore" onclick="restoreEditSet()">Restore</button>
         <button class="study-button" id="edit-close" onclick="closeEditSet()">Close</button>
-        <input type="text" id="edit-name"></div>
+        <input type="text" id="edit-name" class="edit-pair-input"></input>
         <div id="edit-pairs"></div>
         <div id="edit-add">
             <button class="study-button" id="edit-add-button" onclick="addPair()">+</button>

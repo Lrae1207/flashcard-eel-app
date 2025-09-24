@@ -1,4 +1,6 @@
 * {
+    background-color: #44444E;
+    color: #D3DAD9;
     font-family: "Open Sans", serif;
     font-size: 12pt;
     font-optical-sizing: auto;
@@ -18,15 +20,15 @@ h1 {
 
 .study-button {
     border-radius: 10px;
-    border: solid 1px black;
-    color: white;
-    background-color: black;
+    border: solid 1px #37353E;
+    color: #D3DAD9;
+    background-color: #37353E;
 }
 
 .study-button:hover {
-    border: solid 1px black;
-    color: black;
-    background-color: white;
+    border: solid 1px #37353E;
+    color: #37353E;
+    background-color: #D3DAD9;
 }
 
 .inactive-button {
@@ -41,13 +43,20 @@ h1 {
     background-color: darkgray;
 }
 
+.edit-pair-input {
+    border: solid 1px #D3DAD9;
+    color: #D3DAD9;
+    background-color: #37353E;
+    padding: 2px;
+}
+
 #set-preview-section {
     border: dotted 2px transparent;
     width: fit-content;
 }
 
 #set-preview-section:hover {
-    border-color: black;
+    border-color: #37353E;
 }
 
 #set-label {
@@ -64,9 +73,9 @@ h1 {
 }
 
 #study-flashcard {
-    height: 200px;
-    width: 200px;
-    border: solid 2px black;
+    height:300px;
+    width: 300px;
+    border: solid 2px #D3DAD9;
     border-radius: 4px;
     display: flex;
     justify-content: center;

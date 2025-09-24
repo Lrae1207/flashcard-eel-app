@@ -37,7 +37,8 @@ const header = document.getElementById("page-header");
 const fileInput = document.getElementById("set-select");
 const setNameDisplay = document.getElementById("set-name-display");
 const setEditButton = document.getElementById("set-edit");
-const setSaveButton = document.getElementById("set-save");
+const setSaveAsNewButton = document.getElementById("set-save-new");
+const saveSet = document.getElementById("set-save");
 const setDownloadButton = document.getElementById("set-edit");
 const editNameInput = document.getElementById("edit-name");
 const editCloseButton = document.getElementById("edit-close");
@@ -129,11 +130,13 @@ function openEditSet() {
         term.id = "term" + pair;
         term.type = "text";
         term.value = cardList[i].term;
+        term.classList.add("edit-pair-input");
 
         var desc = document.createElement("input");
         desc.id = "desc" + pair;
         desc.type = "text";
         desc.value = cardList[i].description;
+        desc.classList.add("edit-pair-input");
 
         var deleteButton = document.createElement("button");
         deleteButton.innerText = "X";
@@ -185,7 +188,7 @@ function restoreEditSet() {
     }
 }
 
-function saveSet() {
+function saveNewSet() {
     if (confirm("Save current set as a new set?")) {
         var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cardList));
         var downloadAnchorNode = document.createElement('a');
@@ -195,6 +198,10 @@ function saveSet() {
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
     }
+}
+
+function saveAndWriteSet() {
+
 }
 
 function closeEditSet() {
@@ -332,5 +339,3 @@ function displayError(message) {
 document.onload = function() {
 
 };
-
-// Eel stuff

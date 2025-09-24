@@ -2,13 +2,18 @@ import eel
 import json
 import os
 
-cur_dir = os.getcwd()
-file_location = cur_dir
+selected_file_location = ""
+
+@eel.expose
+def set_selected_file_path(path):
+    selected_file_location = path
 
 # TODO: make whole filesystem python based
 @eel.expose
 def updateJsonFile(rawData):
-    file = open("file_location", "w")
+    if selected_file_location == "":
+        return
+    file = open(selected_file_location, "w")
     file.write(rawData)
     file.close()
 
